@@ -9,6 +9,16 @@ import java.util.HashMap;
 @CrossOrigin(origins = "*")
 public class CalculatorController {
 
+    @GetMapping("/health")
+    public Map<String, Object> health() {
+        String podName = System.getenv().getOrDefault("HOSTNAME", "Local-Machine");
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", "UP");
+        response.put("podName", podName);
+        response.put("timestamp", System.currentTimeMillis());
+        return response;
+    }
+
     @PostMapping("/calculate")
     public Map<String, Object> calculate(@RequestBody Map<String, Object> request) {
         double num1 = Double.parseDouble(request.get("num1").toString());
