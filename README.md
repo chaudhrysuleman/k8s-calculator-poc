@@ -58,6 +58,11 @@ sequenceDiagram
 * **NodePort Service**: This specific service type opens a port directly on all Kubernetes node interfaces (e.g., port `30080`) to allow **external traffic** (from your Mac browser) into the internal cluster.
 * **In this project**: The `calculator-service` acts as a load-balancer. It receives traffic on port `30080`, selects one of the healthy calculator Pods, and forwards the HTTP request to it on port `8080`.
 
+### 4. Health Probes & Resource Limits (Resilience & Self-Healing)
+* **Liveness Probe (`GET /api/health`)**: Kubernetes periodically polls the app. If the application deadlocks or becomes unresponsive, Kubernetes automatically restarts the container.
+* **Readiness Probe (`GET /api/health`)**: Ensures the Pod only receives traffic through the Service once Spring Boot has fully initialized.
+* **Resource Requests & Limits**: Guarantees predictable scheduling by requesting `100m` CPU / `256Mi` memory, capped at `500m` CPU / `512Mi` memory to prevent runaway resource consumption.
+
 ---
 
 ## 🛠️ Step-by-Step CLI Playbook
